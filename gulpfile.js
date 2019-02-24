@@ -2,7 +2,8 @@ var gulp = require('gulp')
   ,imagemin = require('gulp-imagemin')
   ,clean = require('gulp-clean')
   ,concat = require('gulp-concat')
-  ,htmlReplace = require('gulp-html-replace');
+  ,htmlReplace = require('gulp-html-replace')
+  ,uglify = require('gulp-uglify');
 
 // removida a dependência de build-img
 gulp.task('copy', ['clean'], function() {
@@ -28,6 +29,7 @@ gulp.task('build-js', function() {
       'dist/js/home.js', 
       'dist/js/ativa-filtro.js'])
         .pipe(concat('all.js'))
+        .pipe(uglify())
         .pipe(gulp.dest('dist/js'));
 });
 
