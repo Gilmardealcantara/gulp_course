@@ -5,7 +5,8 @@ var gulp = require('gulp')
   ,htmlReplace = require('gulp-html-replace')
   ,uglify = require('gulp-uglify')
   ,usemin = require('gulp-usemin')
-  ,cssmin = require('gulp-cssmin');
+  ,cssmin = require('gulp-cssmin')
+  ,browserSync = require('browser-sync');
 
 // removida a dependência de build-img
 gulp.task('copy', ['clean'], function() {
@@ -56,6 +57,16 @@ gulp.task('usemin', function() {
 //gulp.task('default', ['copy'], function() {
 //    gulp.start('build-img', 'build-html', 'build-js');
 //});
+
+gulp.task('server', function() {
+  browserSync.init({
+      server: {
+          baseDir: 'src'
+      }
+  });
+
+  gulp.watch('src/**/*').on('change', browserSync.reload);
+});
 
 gulp.task('default', ['copy'], function() {
   gulp.start('build-img', 'usemin');
