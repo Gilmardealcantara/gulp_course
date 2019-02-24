@@ -6,7 +6,10 @@ var gulp = require('gulp')
   ,uglify = require('gulp-uglify')
   ,usemin = require('gulp-usemin')
   ,cssmin = require('gulp-cssmin')
-  ,browserSync = require('browser-sync');
+  ,browserSync = require('browser-sync')
+  ,jshint = require('gulp-jshint')
+  ,jshintStylish = require('jshint-stylish')
+  ,csslint = require('gulp-csslint');
 
 // removida a dependência de build-img
 gulp.task('copy', ['clean'], function() {
@@ -64,6 +67,18 @@ gulp.task('server', function() {
           baseDir: 'src'
       }
   });
+
+  gulp.watch('src/**/*.js').on('change', function(evt){
+      gulp.src(evt.path)
+        .pipe(jshint())
+        .pipe(jshint.reporter(jshintStylish));
+  });
+  
+  gulp.watch('src/css/**/*.css').on('change', function(event) {
+      gulp.src(event.path)
+          .pipe(csslint())
+          .pipe(csslint.reporter());
+   }); 
 
   gulp.watch('src/**/*').on('change', browserSync.reload);
 });
